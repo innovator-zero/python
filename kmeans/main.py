@@ -2,9 +2,10 @@ import json
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+import csv
 
 co=['red','darkorange','gold','green','deepskyblue','blue','violet','pink','black','cyan']
-K = 10
+K = 5
 
 def distance(sub1, sub2):
     result = sub1 - sub2  # numpy的数组可以对一个向量做减法，得到的还是一个向量
@@ -30,15 +31,25 @@ def kmeans(centerArray,num):
         x2 = np.mean(tempclassResult[:, 1])
         centerArray[j, :] = [x1, x2]  # 更新质心数组里面的质心坐标
 
-with open("order1101_up_heat.json",'r') as load_f:
-    load_dict = json.load(load_f)[0]
+#with open("order1101_up_heat.json",'r') as load_f:
+    #load_dict = json.load(load_f)[0]
 
-    n=len(load_dict)
+    #n=len(load_dict)
+n=509
+x=np.zeros([n,2])
+    #for i in range(n):
+        #x[i,:] = load_dict[i]['coord']
+filename = 'simulation.csv'
+with open(filename) as f:
+    reader = csv.reader(f)
+    i=0
+    for row in reader:
+        x[i,0]=row[1]
+        x[i,1]=row[2]
+        i=i+1
     #n=1000
-    x=np.zeros([n,2])
-    for i in range(n):
-        x[i,:] = load_dict[i]['coord']
 
+    print(x[0,0])
     tempclass = np.zeros(x.shape[0])  # 获得x的第0列的维度
     center = random.sample(range(x.shape[0]), K)  # 从x的第0列数中随机挑选k个数
     centerArray = x[center, :]  # 从x中 获得以center的序列内容为行的向量，列数是从第0列到最后一列
